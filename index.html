@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shorten URL</title>
+		<link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <h1>Shorten URL</h1>
+    <form id="urlForm">
+        <input type="url" id="originalURL" placeholder="Enter original URL" required>
+        <button type="submit">Shorten</button>
+    </form>
+
+    <div id="shortURL"></div>
+
+    <script>
+        document.getElementById('urlForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var originalURL = document.getElementById('originalURL').value;
+
+            fetch('/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({url: originalURL})
+            })
+            .then(response => response.json())
+            .then(data => {
+                var shortURL = data.short_url;
+                document.getElementById('shortURL').innerHTML = 'Хорошо! Ваша сокращенная ссылка: <a href="' + shortURL + '" target="_blank">' + shortURL + '</a>';
+            });
+        });
+    </script>
+	    <a href="statistics" class="btn">Статистика</a>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика</title>
+	<link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <h1>Статистика</h1>
+    
+    <h2>Введите короткую ссылку без http, и вам покажет результат.</h2>
+    <!-- Форма для ввода короткой ссылки -->
+    <form action="/get_statistics" method="post">
+        <input type="text" name="short_url" placeholder="ВВОДИТЕ БЕЗ HTTP">
+        <button type="submit">Получить Статистику</button>
+    </form>
+
+    <!-- Отображение статистики -->
+    <h2>Статистика</h2>
+    {% if statistics_data %}
+    <ul>
+        {% for short_url, count in statistics_data.items() %}
+            <li>{{ short_url }}: {{ count }} визитов</li>
+        {% endfor %}
+    </ul>
+    {% elif error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+</body>
+</html>
